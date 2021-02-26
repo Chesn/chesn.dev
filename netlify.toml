@@ -1,4 +1,4 @@
 [build]
   publish = "public"
-  command = "NODE_ENV=production yarn && yarn build"
+  command = "NODE_ENV=production yarn --silent && yarn build"
   functions = "functions/"
