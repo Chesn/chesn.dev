@@ -1,0 +1,18 @@
+backend:
+  name: test-repo
+
+media_folder: static/assets
+public_folder: /assets
+
+collections:
+  - name: 'blog'
+    label: 'Blog'
+    folder: 'posts'
+    create: true
+    slug: 'index'
+    path: '{{title}}/index'
+    fields:
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Publish Date', name: 'date', widget: 'datetime' }
+      - { label: 'Description', name: 'description', widget: 'string' }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
