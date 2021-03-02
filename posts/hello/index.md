@@ -5,3 +5,6 @@ description: "This is the first post"
 ---
 
 ## Hello world
+
+- First tip
+- Second tip
