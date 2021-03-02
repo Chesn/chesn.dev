@@ -2,6 +2,7 @@ const path = require('path')
 
 module.exports = {
   flags: {
+    FAST_DEV: true,
     DEV_SSR: false
   },
   siteMetadata: {
@@ -37,7 +38,6 @@ module.exports = {
         icon: 'src/images/icon.png'
       }
     },
-    'gatsby-plugin-mdx',
     'gatsby-transformer-sharp',
     {
       resolve: 'gatsby-source-filesystem',
@@ -54,6 +54,35 @@ module.exports = {
         path: './src/pages/'
       },
       __key: 'pages'
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        path: path.join(__dirname, './posts'),
+        name: 'blog'
+      }
+    },
+    {
+      resolve: 'gatsby-transformer-remark',
+      options: {
+        plugins: [
+          {
+            resolve: 'gatsby-remark-images',
+            options: {
+              maxWidth: 630
+            }
+          },
+          {
+            resolve: 'gatsby-remark-responsive-iframe',
+            options: {
+              wrapperStyle: 'margin-bottom: 1.0725rem'
+            }
+          },
+          'gatsby-remark-prismjs',
+          'gatsby-remark-copy-linked-files',
+          'gatsby-remark-smartypants'
+        ]
+      }
     }
   ]
 }
