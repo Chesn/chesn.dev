@@ -1,10 +1,12 @@
 ---
-title: "My first blog post"
-date: "2021-03-01"
-description: "This is the first post"
+title: My first blog post
+date: 2021-03-01
+description: This is the first post
 ---
 
 ## Hello world
 
 - First tip
 - Second tip
+
+> this line was writen by netlify cms
