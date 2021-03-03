@@ -6,9 +6,28 @@ module.exports = {
     DEV_SSR: false
   },
   siteMetadata: {
-    title: 'Chesn Dev'
+    title: 'Chesn\'s Personal Website',
+    author: {
+      name: 'Chesn',
+      summary: 'a web developer with passion.'
+    },
+    description: 'A small place showing my thoughts.',
+    siteUrl: 'https://chesn.dev',
+    social: {
+      twitter: 'chesn_cc'
+    }
   },
   plugins: [
+    'gatsby-plugin-postcss',
+    {
+      resolve: 'gatsby-plugin-sass',
+      options: {
+        postCssPlugins: [
+          require('tailwindcss'),
+          require('./tailwind.config.js') // Optional: Load custom Tailwind CSS configuration
+        ]
+      }
+    },
     {
       resolve: 'gatsby-plugin-alias-imports',
       options: {
@@ -18,24 +37,19 @@ module.exports = {
       }
     },
     'gatsby-plugin-netlify-cms',
-    {
-      resolve: 'gatsby-plugin-emotion',
-      options: {
-        // Accepts the following options, all of which are defined by `@emotion/babel-plugin` plugin.
-        // The values for each key in this example are the defaults the plugin uses.
-        sourceMap: true,
-        autoLabel: 'dev-only',
-        labelFormat: '[local]',
-        cssPropOptimization: true
-      }
-    },
     'gatsby-plugin-sharp',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-offline',
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        icon: 'src/images/icon.png'
+        name: 'Chesn Dev',
+        short_name: 'Chesn',
+        start_url: '/',
+        background_color: '#ffffff',
+        theme_color: '#000000',
+        display: 'minimal-ui',
+        icon: 'src/images/icon-black.png'
       }
     },
     'gatsby-transformer-sharp',
@@ -78,6 +92,18 @@ module.exports = {
               wrapperStyle: 'margin-bottom: 1.0725rem'
             }
           },
+          {
+            resolve: 'gatsby-remark-table-of-contents',
+            options: {
+              exclude: 'Table of Contents',
+              tight: false,
+              ordered: false,
+              fromHeading: 1,
+              toHeading: 6,
+              className: 'table-of-contents'
+            }
+          },
+          'gatsby-remark-autolink-headers',
           'gatsby-remark-prismjs',
           'gatsby-remark-copy-linked-files',
           'gatsby-remark-smartypants'
