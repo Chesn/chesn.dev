@@ -17,6 +17,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         ) {
           nodes {
             id
+            frontmatter {
+              category
+            }
             fields {
               slug
             }
@@ -46,7 +49,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       const nextPostId = index === allPosts.length - 1 ? null : allPosts[index + 1].id
 
       createPage({
-        path: post.fields.slug,
+        path: '/' + post.frontmatter.category + post.fields.slug,
         component: blogPostTemplate,
         context: {
           id: post.id,
@@ -101,6 +104,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     type Frontmatter {
       title: String
       description: String
+      category: String
       date: Date @dateformat
     }
     type Fields {

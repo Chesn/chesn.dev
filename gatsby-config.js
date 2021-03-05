@@ -103,6 +103,15 @@ module.exports = {
               className: 'table-of-contents'
             }
           },
+          {
+            resolve: 'gatsby-remark-highlights',
+            options: {
+              scopePrefix: 'syntax--',
+              codeWrap: {
+                className: 'one-light'
+              }
+            }
+          },
           'gatsby-remark-autolink-headers',
           'gatsby-remark-prismjs',
           'gatsby-remark-copy-linked-files',

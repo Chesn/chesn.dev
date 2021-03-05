@@ -1,8 +1,9 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import dayjs from 'dayjs'
 
 import { Layout, SEO } from '@/components'
+
+import './blog.scss'
 
 type RemarkProps = {
   fields: {
@@ -47,15 +48,14 @@ export default function BlogPostTemplate ({
     <Layout>
       <SEO title={title} />
 
-      <div className="mt-12 mx-auto py-12 max-w-screen-md">
+      <div className="mt-4 md:mt-8 mx-auto py-8 md:py-12 max-w-screen-md">
         <article
-          className="blog-post"
           itemScope
           itemType="http://schema.org/Article">
 
           <header className="text-center">
-            <h1 className="text-2xl text-gray-700 font-bold">{title}</h1>
-            <p className="mt-2 text-sm text-gray-400">{dayjs(date).format('YYYY-MM-DD')}</p>
+            <h1 className="text-2xl text-gray-900 font-bold">{title}</h1>
+            <p className="mt-2 text-sm text-gray-400">{date}</p>
           </header>
 
           <section
@@ -111,7 +111,7 @@ export const pageQuery = graphql`
       html
       frontmatter {
         title
-        date(formatString: "MMMM DD, YYYY")
+        date(formatString: "YYYY-MM-DD")
         description
       }
     }
@@ -121,6 +121,7 @@ export const pageQuery = graphql`
       }
       frontmatter {
         title
+        category
       }
     }
     next: markdownRemark(id: { eq: $nextPostId }) {
@@ -129,6 +130,7 @@ export const pageQuery = graphql`
       }
       frontmatter {
         title
+        category
       }
     }
   }

@@ -1,6 +1,5 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import dayjs from 'dayjs'
 
 import { Layout, SEO } from '@/components'
 
@@ -12,6 +11,7 @@ type Props = {
 
         frontmatter: {
           title: string;
+          category: string;
           description: string;
           date: string;
         };
@@ -31,16 +31,14 @@ export default function Home ({
 
   return (
     <Layout vertical>
-      <SEO
-        title="Home"
-      />
+      <SEO title="Home" />
 
-      <div className="mx-auto py-12 max-w-screen-md">
+      <div className="max-w-screen-md mx-auto py-12">
         <ul>
           {list?.map(({
             id,
             frontmatter: {
-              title, description, date
+              title, category, description, date
             },
             fields: {
               slug
@@ -48,8 +46,8 @@ export default function Home ({
           }) => (
             <li
               key={id}>
-              <a href={slug}>
-                {title} - {description} @ {dayjs(date).format('YYYY-MM-DD')}
+              <a href={'/' + category + slug}>
+                {title} - {description} @ {date}
               </a>
             </li>
           ))}
@@ -69,8 +67,9 @@ export const pageQuery = graphql`
         id
         frontmatter {
           title
+          category
           description
-          date
+          date(formatString: "YYYY-MM-DD")
         }
         fields {
           slug
