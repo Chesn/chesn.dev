@@ -19,28 +19,28 @@ type Props = {
   title?: string;
 }
 
-export function SEO ({
+type PureSEOProps = Props & {
+  data: {
+    site: {
+      siteMetadata: {
+        title?: string;
+        description?: string;
+        social?: {
+          twitter: string;
+        }
+      }
+    }
+  }
+}
+
+export function PureSEO ({
   title = 'Welcome',
   lang = 'en',
   meta = [],
-  description = ''
-}: Props) {
-  const { site } = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-            description
-            social {
-              twitter
-            }
-          }
-        }
-      }
-    `
-  )
-
+  description = '',
+  data
+}: PureSEOProps) {
+  const { site } = data
   const metaDescription = description || site.siteMetadata.description
   const defaultTitle = site.siteMetadata?.title
 
@@ -87,4 +87,24 @@ export function SEO ({
       ].concat(meta)}
     />
   )
+}
+
+export function SEO (props: Props) {
+  const data = useStaticQuery(
+    graphql`
+      query {
+        site {
+          siteMetadata {
+            title
+            description
+            social {
+              twitter
+            }
+          }
+        }
+      }
+    `
+  )
+
+  return <PureSEO {...props} data={data} />
 }
