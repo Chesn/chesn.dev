@@ -1,26 +1,80 @@
 import React from 'react'
-import styled from '@emotion/styled'
+import { graphql } from 'gatsby'
 
-import { SEO } from '@/components'
+import { Layout, SEO } from '@/components'
 
-const Main = styled.div`
-  margin: 60px;
-`
-const Title = styled.h1`
-  margin: 0;
-  color: #555;
-  font-size: 16px;
-  font-weight: 600;
-`
+type Props = {
+  data: {
+    allMarkdownRemark: {
+      nodes: Array<{
+        id: string;
 
-export default function Home () {
+        frontmatter: {
+          title: string;
+          category: string;
+          description: string;
+          date: string;
+        };
+
+        fields: {
+          slug: string;
+        };
+      }>;
+    };
+  };
+}
+
+export default function Home ({
+  data
+}: Props) {
+  const list = data.allMarkdownRemark.nodes
+
   return (
-    <Main>
-      <SEO
-        title="Home"
-      />
+    <Layout vertical>
+      <SEO title="Home" />
 
-      <Title>Hello from <a href="https://github.com/Chesn">#Chesn</a></Title>
-    </Main>
+      <div className="max-w-screen-md mx-auto py-12">
+        <ul>
+          {list?.map(({
+            id,
+            frontmatter: {
+              title, category, description, date
+            },
+            fields: {
+              slug
+            }
+          }) => (
+            <li
+              key={id}>
+              <a href={'/' + category + slug}>
+                {title} - {description} @ {date}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Layout>
   )
 }
+
+export const pageQuery = graphql`
+  {
+    allMarkdownRemark(
+      sort: { fields: [frontmatter___date], order: ASC }
+      limit: 100
+    ) {
+      nodes {
+        id
+        frontmatter {
+          title
+          category
+          description
+          date(formatString: "YYYY-MM-DD")
+        }
+        fields {
+          slug
+        }
+      }
+    }
+  }
+`

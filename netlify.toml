@@ -2,3 +2,6 @@
   publish = "public"
   command = "NODE_ENV=production yarn --silent && yarn build"
   functions = "functions/"
+
+[[plugins]]
+  package = "netlify-plugin-gatsby-cache"

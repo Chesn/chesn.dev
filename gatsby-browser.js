@@ -1,2 +1,3 @@
-import 'normalize.css'
-import './src/styles/global.css'
+import 'animate.css/animate.min.css'
+import './src/styles/index.scss'
+import './src/styles/one-light-syntax.css'

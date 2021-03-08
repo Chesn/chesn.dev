@@ -5,7 +5,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
 
   // Define a template for blog post
-  const blogPost = path.resolve('./src/templates/_blog.tsx')
+  const blogPostTemplate = path.resolve('./src/templates/blog.tsx')
 
   // Get all markdown blog posts sorted by date
   const result = await graphql(
@@ -17,6 +17,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         ) {
           nodes {
             id
+            frontmatter {
+              category
+            }
             fields {
               slug
             }
@@ -34,20 +37,20 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     return
   }
 
-  const posts = result.data.allMarkdownRemark.nodes
+  const allPosts = result.data.allMarkdownRemark.nodes
 
   // Create blog posts pages
   // But only if there's at least one markdown file found at "content/blog" (defined in gatsby-config.js)
   // `context` is available in the template as a prop and as a variable in GraphQL
 
-  if (posts.length > 0) {
-    posts.forEach((post, index) => {
-      const previousPostId = index === 0 ? null : posts[index - 1].id
-      const nextPostId = index === posts.length - 1 ? null : posts[index + 1].id
+  if (allPosts.length > 0) {
+    allPosts.forEach((post, index) => {
+      const previousPostId = index === 0 ? null : allPosts[index - 1].id
+      const nextPostId = index === allPosts.length - 1 ? null : allPosts[index + 1].id
 
       createPage({
-        path: '/blog' + post.fields.slug,
-        component: blogPost,
+        path: '/' + post.frontmatter.category + post.fields.slug,
+        component: blogPostTemplate,
         context: {
           id: post.id,
           previousPostId,
@@ -101,6 +104,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     type Frontmatter {
       title: String
       description: String
+      category: String
       date: Date @dateformat
     }
     type Fields {
